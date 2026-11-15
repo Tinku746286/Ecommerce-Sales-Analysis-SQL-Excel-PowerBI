@@ -1,0 +1,37 @@
+createOrReplace
+
+	table DAX_MEASURE
+		lineageTag: 9811787b-3c62-40a6-bd15-24f192022129
+
+		measure 'Total Sales' = ```
+				
+				SUM('ecommerce clean_ecommerce'[Net_Amount])
+				
+				```
+			lineageTag: 918b51bd-7bf5-4305-b2de-8b778e719894
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+		measure 'Total Profit' = sum('ecommerce clean_ecommerce'[Profit])
+        measure 'Total Orders' = count('ecommerce clean_ecommerce'[Order_ID])
+ 		measure 'Average Order Value' = DIVIDE([Total Sales], [Total Orders])
+
+
+		column Column1
+			dataType: string
+			lineageTag: ed1563a5-d6b6-47b9-af86-9179faf233e7
+			summarizeBy: none
+			sourceColumn: Column1
+
+			annotation SummarizationSetBy = Automatic
+
+		partition DAX_MEASURE = m
+			mode: import
+			source =
+					let
+					    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+					    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+					in
+					    #"Changed Type"
+
+		annotation PBI_ResultType = Table
+
