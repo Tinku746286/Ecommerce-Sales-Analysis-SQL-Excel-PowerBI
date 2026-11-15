@@ -6,7 +6,8 @@ An end-to-end data analytics project evaluating e-commerce sales performance, or
 ---
 
 ## 📊 Dashboard Preview
-![E-Commerce Dashboard Preview](images/dashboard_screenshot.png)
+![E-Commerce Dashboard Preview](ecommerce_eda_analysis.png)
+
 
 ---
 
